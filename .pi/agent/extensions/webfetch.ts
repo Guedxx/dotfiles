@@ -1,4 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { Text } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
 
 const MAX_RESPONSE_SIZE = 5 * 1024 * 1024;
@@ -126,6 +127,31 @@ function isImageAttachment(mime: string): boolean {
 	return mime.startsWith("image/") && mime !== "image/svg+xml";
 }
 
+function formatBytes(bytes: number): string {
+	if (!Number.isFinite(bytes) || bytes < 0) return "unknown size";
+	if (bytes < 1024) return `${bytes} B`;
+	const units = ["KB", "MB", "GB"];
+	let value = bytes / 1024;
+	let unitIndex = 0;
+	while (value >= 1024 && unitIndex < units.length - 1) {
+		value /= 1024;
+		unitIndex++;
+	}
+	return `${value >= 10 ? value.toFixed(1) : value.toFixed(2)} ${units[unitIndex]}`;
+}
+
+function resultTextLength(result: { content?: Array<{ type: string; text?: string }> }): number | undefined {
+	const text = result.content
+		?.filter((item) => item.type === "text" && typeof item.text === "string")
+		.map((item) => item.text)
+		.join("\n");
+	return text === undefined ? undefined : text.length;
+}
+
+function estimateTextTokens(chars: number): number {
+	return Math.ceil(chars / 4);
+}
+
 async function readLimited(response: Response, maxBytes: number): Promise<Uint8Array> {
 	const contentLength = response.headers.get("content-length");
 	if (contentLength && Number.parseInt(contentLength, 10) > maxBytes) {
@@ -199,6 +225,30 @@ export default function webfetchExtension(pi: ExtensionAPI) {
 			),
 			timeout: Type.Optional(Type.Number({ description: "Optional timeout in seconds (max 120)" })),
 		}),
+		renderCall(args, theme, _context) {
+			let text = theme.fg("toolTitle", theme.bold("webfetch "));
+			if (args.url) text += theme.fg("accent", String(args.url));
+			if (args.format) text += theme.fg("muted", ` (${args.format})`);
+			return new Text(text, 0, 0);
+		},
+		renderResult(result, { isPartial }, theme, _context) {
+			if (isPartial) return new Text(theme.fg("warning", "Fetching..."), 0, 0);
+
+			const details = result.details as WebFetchDetails | undefined;
+			if (!details) return new Text(theme.fg("success", "Fetched content (hidden from UI; available to the model)"), 0, 0);
+
+			let text = theme.fg("success", `Fetched ${details.isImage ? "image" : details.format}`);
+			text += theme.fg("muted", ` • ${details.status} ${details.statusText}`);
+			text += theme.fg("muted", ` • ${formatBytes(details.bytesRead)}`);
+
+			const chars = resultTextLength(result);
+			if (chars !== undefined && !details.isImage) {
+				text += theme.fg("muted", ` • ${chars.toLocaleString()} chars / ~${estimateTextTokens(chars).toLocaleString()} tokens`);
+			}
+
+			text += `\n${theme.fg("dim", details.finalUrl || details.url)}`;
+			return new Text(text, 0, 0);
+		},
 		async execute(_toolCallId, params, signal) {
 			let url: URL;
 			try {
