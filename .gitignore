@@ -1,0 +1,9 @@
+.pi/agent/auth.json
+.pi/agent/bedrock.env
+.pi/agent/sessions/
+.pi/agent/bin/
+*.env
+*.env.*
+!.env.example
+node_modules/
+.DS_Store
