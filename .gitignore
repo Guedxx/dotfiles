@@ -1,7 +1,7 @@
-.pi/agent/auth.json
-.pi/agent/bedrock.env
-.pi/agent/sessions/
-.pi/agent/bin/
+pi/.pi/agent/auth.json
+pi/.pi/agent/bedrock.env
+pi/.pi/agent/sessions/
+pi/.pi/agent/bin/
 *.env
 *.env.*
 !.env.example

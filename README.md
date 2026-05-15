@@ -1,17 +1,18 @@
-# PI Configs
+# Dotfiles
 
-Portable pi coding agent config and extensions.
+Portable personal configuration files.
 
-Tracked:
+## Layout
 
-- `.pi/agent/settings.json`
-- `.pi/agent/extensions/`
+- `pi/` - pi coding agent config and extensions.
+  - `pi/.pi/agent/settings.json`
+  - `pi/.pi/agent/extensions/`
+  - `pi/AGENTS.md`
+- `wezterm/` - WezTerm config.
+  - `wezterm/wezterm.lua`
 
-Not tracked:
+## Not tracked
 
-- `auth.json`
-- `bedrock.env`
-- `sessions/`
-- `bin/`
-
-To update a machine, ask pi to sync this repo into `~/.pi/agent` following `AGENTS.md`.
+- pi auth/secrets: `pi/.pi/agent/auth.json`, `pi/.pi/agent/bedrock.env`
+- pi generated/runtime data: `pi/.pi/agent/sessions/`, `pi/.pi/agent/bin/`
+- environment files and dependencies
