@@ -1,0 +1,99 @@
+# Ghostty config migrated from ~/.config/wezterm/wezterm.lua
+# Docs: https://ghostty.org/docs/config
+
+# Shell
+command = /usr/bin/zsh
+
+# Font
+font-family = ""
+font-family = "JetBrains Mono"
+font-family = "Noto Color Emoji"
+font-size = 11.5
+adjust-cell-height = 5%
+font-feature = calt
+font-feature = clig
+font-feature = liga
+
+# Window / appearance
+theme = "Ayu"
+background-image = /home/xigo/dotfiles/wezterm/goku.jpg
+background-image-opacity = 0.02
+background-image-position = center
+background-image-fit = cover
+background-image-repeat = false
+background-opacity = 1
+
+# Cursor warp/trail shader from https://github.com/sahaj-b/ghostty-cursor-shaders
+# This is the repo's most customizable Neovide-like cursor trail.
+custom-shader = /home/xigo/dotfiles/ghostty/shaders/cursor_warp.glsl
+custom-shader-animation = true
+
+window-padding-x = 10
+window-padding-y = 8
+window-width = 120
+window-height = 34
+# Hide Ghostty's GTK header/title bar and window controls.
+window-decoration = none
+gtk-titlebar = false
+mouse-hide-while-typing = true
+confirm-close-surface = false
+
+# Tabs
+# Hide the tab/header bar; tabs remain accessible via shortcuts.
+window-show-tab-bar = never
+gtk-tabs-location = hidden
+gtk-wide-tabs = false
+
+# Cursor / scrollback
+cursor-style = block
+cursor-style-blink = true
+scrollback-limit = 10000000
+
+# Key bindings migrated from WezTerm.
+# WezTerm SplitHorizontal (side-by-side) => Ghostty new_split:right.
+# Disabled: on this keyboard/layout, SUPER+] appears to be interpreted as slash/backslash.
+# keybind = super+backslash=new_split:right
+# keybind = super+slash=new_split:right
+
+# WezTerm SplitVertical (top/bottom) => Ghostty new_split:down.
+keybind = super+shift+digit_5=new_split:down
+
+# New tab.
+keybind = super+key_c=new_tab
+keybind = super+shift+key_c=new_tab
+
+# Next tab.
+keybind = super+key_n=next_tab
+keybind = super+shift+key_n=next_tab
+
+# Move between tabs.
+# Use physical bracket keys: Shift+[ types "{" and Shift+] types "}" on US layouts.
+keybind = super+shift+bracket_left=previous_tab
+keybind = super+shift+bracket_right=next_tab
+
+# Move focus between splits/panes.
+keybind = super+bracket_left=goto_split:left
+# keybind = super+bracket_right=goto_split:right
+
+# Kill the current split/pane.
+keybind = super+key_k=close_surface
+
+# tmux-like prefix mode: press Ctrl+B, then one key.
+keybind = ctrl+b=activate_key_table_once:tmux
+keybind = tmux/c=new_tab
+keybind = tmux/n=next_tab
+keybind = tmux/p=previous_tab
+keybind = tmux/shift+digit_5=new_split:right
+keybind = tmux/shift+apostrophe=new_split:down
+keybind = tmux/h=goto_split:left
+keybind = tmux/j=goto_split:down
+keybind = tmux/k=goto_split:up
+keybind = tmux/l=goto_split:right
+keybind = tmux/arrow_left=goto_split:left
+keybind = tmux/arrow_down=goto_split:down
+keybind = tmux/arrow_up=goto_split:up
+keybind = tmux/arrow_right=goto_split:right
+keybind = tmux/x=close_surface
+keybind = tmux/z=toggle_split_zoom
+keybind = tmux/ctrl+b=text:\x02
+keybind = tmux/catch_all=deactivate_key_table
