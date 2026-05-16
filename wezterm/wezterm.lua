@@ -31,7 +31,7 @@ config.window_background_image_hsb = {
   brightness = 0.20,
   saturation = 1.0,
 }
-config.window_background_opacity = 0.80
+config.window_background_opacity = 1.0
 config.text_background_opacity = 1.0
 config.window_padding = {
   left = 10,
