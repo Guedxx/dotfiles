@@ -26,30 +26,12 @@ config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
 
 -- Window / appearance
 config.color_scheme = 'Catppuccin Mocha'
--- Keep the legacy background image configured so Goku always renders.
 config.window_background_image = background_image
 config.window_background_image_hsb = {
   brightness = 0.20,
   saturation = 1.0,
 }
 config.window_background_opacity = 0.80
--- Add the same image as a parallax layer. Per WezTerm docs, older
--- window_background_* settings are prepended to this layer stack.
-config.background = {
-  {
-    source = { File = background_image },
-    attachment = { Parallax = 0.10 },
-    width = '100%',
-    height = '100%',
-    opacity = 0.35,
-    repeat_x = 'NoRepeat',
-    repeat_y = 'NoRepeat',
-    hsb = {
-      brightness = 0.25,
-      saturation = 1.0,
-    },
-  },
-}
 config.text_background_opacity = 1.0
 config.window_padding = {
   left = 10,
