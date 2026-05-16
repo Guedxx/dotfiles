@@ -26,31 +26,28 @@ config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
 
 -- Window / appearance
 config.color_scheme = 'Catppuccin Mocha'
+-- Keep the legacy background image configured so Goku always renders.
+config.window_background_image = background_image
+config.window_background_image_hsb = {
+  brightness = 0.20,
+  saturation = 1.0,
+}
+config.window_background_opacity = 0.80
+-- Add the same image as a parallax layer. Per WezTerm docs, older
+-- window_background_* settings are prepended to this layer stack.
 config.background = {
-  -- Goku moves slower than the scrollback for a subtle depth effect.
   {
     source = { File = background_image },
-    attachment = { Parallax = 0.08 },
-    height = 'Cover',
+    attachment = { Parallax = 0.10 },
+    width = '100%',
+    height = '100%',
+    opacity = 0.35,
     repeat_x = 'NoRepeat',
     repeat_y = 'NoRepeat',
     hsb = {
-      brightness = 0.18,
+      brightness = 0.25,
       saturation = 1.0,
     },
-  },
-  -- A soft color wash above the image keeps text readable.
-  {
-    source = {
-      Gradient = {
-        orientation = { Linear = { angle = -35.0 } },
-        colors = { '#050812', '#1e1e2e', '#11111b' },
-        blend = 'Oklab',
-      },
-    },
-    opacity = 0.45,
-    width = '100%',
-    height = '100%',
   },
 }
 config.text_background_opacity = 1.0
