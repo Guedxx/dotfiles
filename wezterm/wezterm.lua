@@ -113,7 +113,6 @@ wezterm.on('cycle-wallpaper', function(window)
   overrides.window_background_image = next_wallpaper.image
   overrides.color_scheme = next_wallpaper.color_scheme
   window:set_config_overrides(overrides)
-  window:toast_notification('WezTerm', 'Wallpaper: ' .. next_wallpaper.image:match '[^/]+$', nil, 2000)
 end)
 
 return config
