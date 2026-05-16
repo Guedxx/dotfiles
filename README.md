@@ -10,6 +10,7 @@ Portable personal configuration files.
   - `pi/AGENTS.md`
 - `wezterm/` - WezTerm config.
   - `wezterm/wezterm.lua`
+  - `wezterm/goku.jpg`
 
 ## Not tracked
 

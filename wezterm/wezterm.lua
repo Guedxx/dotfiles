@@ -5,6 +5,7 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 
 local config = wezterm.config_builder()
+local background_image = (os.getenv 'HOME') .. '/dotfiles/wezterm/goku.jpg'
 
 -- Platform / rendering
 config.enable_wayland = true
@@ -24,6 +25,11 @@ config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
 
 -- Window / appearance
 config.color_scheme = 'Ayu Dark (Gogh)'
+config.window_background_image = background_image
+config.window_background_image_hsb = {
+  brightness = 0.20,
+  saturation = 1.0,
+}
 config.window_background_opacity = 0.80
 config.text_background_opacity = 1.0
 config.window_padding = {
@@ -55,6 +61,9 @@ config.keys = {
   -- SUPER+\ and SUPER+/ split the current pane side-by-side.
   { key = '\\', mods = 'SUPER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
   { key = '/', mods = 'SUPER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+
+  -- SUPER+% splits the current pane vertically.
+  { key = '%', mods = 'SUPER|SHIFT', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
 
   -- SUPER+N opens a new tab.
   { key = 'n', mods = 'SUPER', action = act.SpawnTab 'CurrentPaneDomain' },
