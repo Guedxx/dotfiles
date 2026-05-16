@@ -11,6 +11,7 @@ Portable personal configuration files.
 - `wezterm/` - WezTerm config.
   - `wezterm/wezterm.lua`
   - `wezterm/goku.jpg`
+  - `wezterm/berserk.jpg`
 
 ## Not tracked
 
