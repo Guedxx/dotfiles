@@ -28,7 +28,7 @@ config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
 config.color_scheme = 'Catppuccin Mocha'
 config.window_background_image = background_image
 config.window_background_image_hsb = {
-  brightness = 0.10,
+  brightness = 0.02,
   saturation = 1.0,
 }
 config.window_background_opacity = 1.0
