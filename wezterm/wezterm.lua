@@ -57,6 +57,14 @@ config.keys = {
   -- SUPER+\ splits the current pane side-by-side.
   { key = '\\', mods = 'SUPER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
 
+  -- SUPER+N opens a new tab.
+  { key = 'n', mods = 'SUPER', action = act.SpawnTab 'CurrentPaneDomain' },
+  { key = 'N', mods = 'SUPER|SHIFT', action = act.SpawnTab 'CurrentPaneDomain' },
+
+  -- Move between tabs.
+  { key = '{', mods = 'SUPER|SHIFT', action = act.ActivateTabRelative(-1) },
+  { key = '}', mods = 'SUPER|SHIFT', action = act.ActivateTabRelative(1) },
+
   -- Move focus between panes.
   { key = '[', mods = 'SUPER', action = act.ActivatePaneDirection 'Left' },
   { key = ']', mods = 'SUPER', action = act.ActivatePaneDirection 'Right' },
