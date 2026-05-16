@@ -7,10 +7,11 @@ local act = wezterm.action
 local config = wezterm.config_builder()
 local dotfiles_dir = (os.getenv 'HOME') .. '/dotfiles/wezterm'
 local wallpapers = {
-  dotfiles_dir .. '/berserk.jpg',
-  dotfiles_dir .. '/goku.jpg',
+  { image = dotfiles_dir .. '/berserk.jpg', color_scheme = 'Ayu Dark (Gogh)' },
+  { image = dotfiles_dir .. '/goku.jpg', color_scheme = 'Catppuccin Mocha' },
 }
-local background_image = wallpapers[1]
+local background_image = wallpapers[1].image
+local background_color_scheme = wallpapers[1].color_scheme
 
 -- Platform / rendering
 config.enable_wayland = true
@@ -29,7 +30,7 @@ config.line_height = 1.05
 config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
 
 -- Window / appearance
-config.color_scheme = 'Ayu Dark (Gogh)'
+config.color_scheme = background_color_scheme
 config.window_background_image = background_image
 config.window_background_image_hsb = {
   brightness = 0.20,
@@ -102,15 +103,17 @@ wezterm.on('cycle-wallpaper', function(window)
   local next_index = 1
 
   for index, wallpaper in ipairs(wallpapers) do
-    if wallpaper == current_wallpaper then
+    if wallpaper.image == current_wallpaper then
       next_index = (index % #wallpapers) + 1
       break
     end
   end
 
-  overrides.window_background_image = wallpapers[next_index]
+  local next_wallpaper = wallpapers[next_index]
+  overrides.window_background_image = next_wallpaper.image
+  overrides.color_scheme = next_wallpaper.color_scheme
   window:set_config_overrides(overrides)
-  window:toast_notification('WezTerm', 'Wallpaper: ' .. wallpapers[next_index]:match '[^/]+$', nil, 2000)
+  window:toast_notification('WezTerm', 'Wallpaper: ' .. next_wallpaper.image:match '[^/]+$', nil, 2000)
 end)
 
 return config
