@@ -5,7 +5,12 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 
 local config = wezterm.config_builder()
-local background_image = (os.getenv 'HOME') .. '/dotfiles/wezterm/berserk.jpg'
+local dotfiles_dir = (os.getenv 'HOME') .. '/dotfiles/wezterm'
+local wallpapers = {
+  dotfiles_dir .. '/berserk.jpg',
+  dotfiles_dir .. '/goku.jpg',
+}
+local background_image = wallpapers[1]
 
 -- Platform / rendering
 config.enable_wayland = true
@@ -65,6 +70,9 @@ config.keys = {
   -- SUPER+% splits the current pane vertically.
   { key = '%', mods = 'SUPER|SHIFT', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
 
+  -- SUPER+C then G cycles through wallpapers.
+  { key = 'c', mods = 'SUPER', action = act.ActivateKeyTable { name = 'wallpaper', one_shot = true, timeout_milliseconds = 1500 } },
+
   -- SUPER+N opens a new tab.
   { key = 'n', mods = 'SUPER', action = act.SpawnTab 'CurrentPaneDomain' },
   { key = 'N', mods = 'SUPER|SHIFT', action = act.SpawnTab 'CurrentPaneDomain' },
@@ -80,5 +88,29 @@ config.keys = {
   -- Kill the current pane.
   { key = 'k', mods = 'SUPER', action = act.CloseCurrentPane { confirm = false } },
 }
+
+config.key_tables = {
+  wallpaper = {
+    { key = 'g', mods = 'NONE', action = act.EmitEvent 'cycle-wallpaper' },
+    { key = 'g', mods = 'SUPER', action = act.EmitEvent 'cycle-wallpaper' },
+  },
+}
+
+wezterm.on('cycle-wallpaper', function(window)
+  local overrides = window:get_config_overrides() or {}
+  local current_wallpaper = overrides.window_background_image or background_image
+  local next_index = 1
+
+  for index, wallpaper in ipairs(wallpapers) do
+    if wallpaper == current_wallpaper then
+      next_index = (index % #wallpapers) + 1
+      break
+    end
+  end
+
+  overrides.window_background_image = wallpapers[next_index]
+  window:set_config_overrides(overrides)
+  window:toast_notification('WezTerm', 'Wallpaper: ' .. wallpapers[next_index]:match '[^/]+$', nil, 2000)
+end)
 
 return config
