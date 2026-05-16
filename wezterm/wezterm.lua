@@ -73,9 +73,13 @@ config.keys = {
   -- SUPER+% splits the current pane vertically.
   { key = '%', mods = 'SUPER|SHIFT', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
 
-  -- SUPER+N opens a new tab.
-  { key = 'n', mods = 'SUPER', action = act.SpawnTab 'CurrentPaneDomain' },
-  { key = 'N', mods = 'SUPER|SHIFT', action = act.SpawnTab 'CurrentPaneDomain' },
+  -- SUPER+C opens a new tab.
+  { key = 'c', mods = 'SUPER', action = act.SpawnTab 'CurrentPaneDomain' },
+  { key = 'C', mods = 'SUPER|SHIFT', action = act.SpawnTab 'CurrentPaneDomain' },
+
+  -- SUPER+N moves to the next tab.
+  { key = 'n', mods = 'SUPER', action = act.ActivateTabRelative(1) },
+  { key = 'N', mods = 'SUPER|SHIFT', action = act.ActivateTabRelative(1) },
 
   -- Move between tabs.
   { key = '{', mods = 'SUPER|SHIFT', action = act.ActivateTabRelative(-1) },
