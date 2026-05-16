@@ -6,12 +6,7 @@ local act = wezterm.action
 
 local config = wezterm.config_builder()
 local dotfiles_dir = (os.getenv 'HOME') .. '/dotfiles/wezterm'
-local wallpapers = {
-  { image = dotfiles_dir .. '/berserk.jpg', color_scheme = 'Ayu Dark (Gogh)' },
-  { image = dotfiles_dir .. '/goku.jpg', color_scheme = 'Catppuccin Mocha' },
-}
-local background_image = wallpapers[1].image
-local background_color_scheme = wallpapers[1].color_scheme
+local background_image = dotfiles_dir .. '/goku.jpg'
 
 -- Platform / rendering
 config.enable_wayland = true
@@ -30,7 +25,7 @@ config.line_height = 1.05
 config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
 
 -- Window / appearance
-config.color_scheme = background_color_scheme
+config.color_scheme = 'Catppuccin Mocha'
 config.window_background_image = background_image
 config.window_background_image_hsb = {
   brightness = 0.20,
@@ -71,9 +66,6 @@ config.keys = {
   -- SUPER+% splits the current pane vertically.
   { key = '%', mods = 'SUPER|SHIFT', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
 
-  -- SUPER+C then G cycles through wallpapers.
-  { key = 'c', mods = 'SUPER', action = act.ActivateKeyTable { name = 'wallpaper', one_shot = true, timeout_milliseconds = 1500 } },
-
   -- SUPER+N opens a new tab.
   { key = 'n', mods = 'SUPER', action = act.SpawnTab 'CurrentPaneDomain' },
   { key = 'N', mods = 'SUPER|SHIFT', action = act.SpawnTab 'CurrentPaneDomain' },
@@ -89,30 +81,5 @@ config.keys = {
   -- Kill the current pane.
   { key = 'k', mods = 'SUPER', action = act.CloseCurrentPane { confirm = false } },
 }
-
-config.key_tables = {
-  wallpaper = {
-    { key = 'g', mods = 'NONE', action = act.EmitEvent 'cycle-wallpaper' },
-    { key = 'g', mods = 'SUPER', action = act.EmitEvent 'cycle-wallpaper' },
-  },
-}
-
-wezterm.on('cycle-wallpaper', function(window)
-  local overrides = window:get_config_overrides() or {}
-  local current_wallpaper = overrides.window_background_image or background_image
-  local next_index = 1
-
-  for index, wallpaper in ipairs(wallpapers) do
-    if wallpaper.image == current_wallpaper then
-      next_index = (index % #wallpapers) + 1
-      break
-    end
-  end
-
-  local next_wallpaper = wallpapers[next_index]
-  overrides.window_background_image = next_wallpaper.image
-  overrides.color_scheme = next_wallpaper.color_scheme
-  window:set_config_overrides(overrides)
-end)
 
 return config
