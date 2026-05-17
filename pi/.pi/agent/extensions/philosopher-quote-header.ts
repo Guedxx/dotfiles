@@ -23,18 +23,25 @@ function center(line: string, width: number): string {
 }
 
 class PhilosopherQuoteHeader implements Component {
-  private readonly quote: string;
+  private readonly text: string;
+  private readonly author: string;
+
   constructor(private readonly theme: any) {
     const [text, author] = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-    this.quote = `“${text}” — ${author}`;
+    this.text = text;
+    this.author = author;
   }
 
+  invalidate(): void {}
+
   render(width: number): string[] {
-    const quote = this.theme.fg("muted", this.quote);
+    const quote = this.theme.fg("muted", `“${this.text}”`);
+    const author = this.theme.fg("accent", `— ${this.author}`);
 
     return [
       " ".repeat(width),
       center(quote, width),
+      center(author, width),
       " ".repeat(width),
     ];
   }
