@@ -1,4 +1,4 @@
-# Ghostty config migrated from ~/.config/wezterm/wezterm.lua
+# Ghostty config
 # Docs: https://ghostty.org/docs/config
 
 # Shell
@@ -16,7 +16,7 @@ font-feature = liga
 
 # Window / appearance
 theme = "Ayu"
-background-image = /home/xigo/dotfiles/wezterm/goku.jpg
+background-image = /home/xigo/dotfiles/ghostty/goku.jpg
 background-image-opacity = 0.02
 background-image-position = center
 background-image-fit = cover

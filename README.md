@@ -8,9 +8,10 @@ Portable personal configuration files.
   - `pi/.pi/agent/settings.json`
   - `pi/.pi/agent/extensions/`
   - `pi/AGENTS.md`
-- `wezterm/` - WezTerm config.
-  - `wezterm/wezterm.lua`
-  - `wezterm/goku.jpg`
+- `ghostty/` - Ghostty config.
+  - `ghostty/config`
+  - `ghostty/goku.jpg`
+  - `ghostty/shaders/`
 
 ## Not tracked
 
